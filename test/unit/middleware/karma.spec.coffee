@@ -17,7 +17,7 @@ describe 'middleware.karma', ->
         'debug.html': mocks.fs.file(0, 'DEBUG\n%SCRIPTS%')
         'karma.js': mocks.fs.file(0, 'root: %KARMA_URL_ROOT%, v: %KARMA_VERSION%')
 
-  serveStaticFile = require('../../../lib/middleware/common').createServeFile fsMock, '/karma/static'
+  serveFile = require('../../../lib/middleware/common').createServeFile fsMock, '/karma/static'
   createKarmaMiddleware = require('../../../lib/middleware/karma').create
 
   handler = filesDeferred = nextSpy = response = null
@@ -26,7 +26,7 @@ describe 'middleware.karma', ->
     nextSpy = sinon.spy()
     response = new HttpResponseMock
     filesDeferred = q.defer()
-    handler = createKarmaMiddleware filesDeferred.promise, serveStaticFile, '/base/path', '/__karma__/'
+    handler = createKarmaMiddleware filesDeferred.promise, serveFile, '/base/path', '/__karma__/'
 
   # helpers
   includedFiles = (files) ->
@@ -68,7 +68,7 @@ describe 'middleware.karma', ->
 
 
   it 'should serve client.html', (done) ->
-    handler = createKarmaMiddleware null, serveStaticFile, '/base', '/'
+    handler = createKarmaMiddleware null, serveFile, '/base', '/'
 
     response.once 'end', ->
       expect(nextSpy).not.to.have.been.called
@@ -79,7 +79,7 @@ describe 'middleware.karma', ->
 
 
   it 'should serve /?id=xxx', (done) ->
-    handler = createKarmaMiddleware null, serveStaticFile, '/base', '/'
+    handler = createKarmaMiddleware null, serveFile, '/base', '/'
 
     response.once 'end', ->
       expect(nextSpy).not.to.have.been.called

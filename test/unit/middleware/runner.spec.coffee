@@ -24,7 +24,8 @@ describe 'middleware.runner', ->
     nextSpy = sinon.spy()
     response = new HttpResponseMock
 
-    handler = createRunnerMiddleware emitter, fileListMock, capturedBrowsers, new MultReporter([mockReporter]), 'localhost', 8877, '/'
+    handler = createRunnerMiddleware emitter, fileListMock, capturedBrowsers,
+        new MultReporter([mockReporter]), 'localhost', 8877, '/'
 
 
   it 'should trigger test run and stream the reporter', (done) ->
